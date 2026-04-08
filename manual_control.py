@@ -1,3 +1,6 @@
+import os
+os.environ['JETSON_MODEL'] = 'JETSON_ORIN_NANO'
+
 import Jetson.GPIO as GPIO
 import cv2
 
