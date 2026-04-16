@@ -15,14 +15,14 @@
                 hdr40-pin32 {
                     nvidia,pins = "soc_gpio19_pg6";
                     nvidia,tristate = <0x0>;
-                    nvidia,function = "pwm";
+                    nvidia,function = "gp";
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
                 hdr40-pin33 {
                     nvidia,pins = "soc_gpio21_ph0";
                     nvidia,tristate = <0x0>;
-                    nvidia,function = "pwm";
+                    nvidia,function = "gp";
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
