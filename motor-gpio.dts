@@ -35,14 +35,12 @@
                     nvidia,tristate = <0x0>;
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
-                    nvidia,function = "gp";
                 };
                 hdr40-pin37 {
                     nvidia,pins = "spi3_mosi_py2";
                     nvidia,tristate = <0x0>;
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
-                    nvidia,function = "gp";
                 };
                 hdr40-pin38 {
                     nvidia,pins = "soc_gpio43_pi1";
