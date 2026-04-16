@@ -14,18 +14,18 @@ IN4 = 20  # Right direction 2 (Pin 38)
 
 # Setup
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(ENA, GPIO.OUT)
+
 GPIO.setup(IN1, GPIO.OUT)
 GPIO.setup(IN2, GPIO.OUT)
-GPIO.setup(ENB, GPIO.OUT)
+
 GPIO.setup(IN3, GPIO.OUT)
 GPIO.setup(IN4, GPIO.OUT)
 
-# PWM setup (1000 Hz frequency)
-pwm_left = GPIO.PWM(ENA, 1000)
-pwm_right = GPIO.PWM(ENB, 1000)
-pwm_left.start(0)
-pwm_right.start(0)
+GPIO.setup(ENA, GPIO.OUT)
+GPIO.setup(ENB, GPIO.OUT)
+GPIO.output(ENA, GPIO.HIGH)
+GPIO.output(ENB, GPIO.HIGH)
+
 
 print("GPIO Test - Press Ctrl+C to stop")
 
@@ -36,30 +36,25 @@ try:
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
     time.sleep(2)
     
     # Test: Left motors forward at 50% speed
     print("Test 2: Left motors forward (50%)")
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(50)
     time.sleep(3)
     
     # Stop
-    pwm_left.ChangeDutyCycle(0)
     time.sleep(1)
     
     # Test: Right motors forward at 50% speed
     print("Test 3: Right motors forward (50%)")
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_right.ChangeDutyCycle(50)
     time.sleep(3)
     
     # Stop
-    pwm_right.ChangeDutyCycle(0)
+
     time.sleep(1)
     
     # Test: Both motors forward at 30% speed
@@ -68,13 +63,11 @@ try:
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(30)
-    pwm_right.ChangeDutyCycle(30)
+
     time.sleep(3)
     
     # Stop
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
+
     time.sleep(1)
     
     # Test: Both motors reverse at 30% speed
@@ -83,21 +76,18 @@ try:
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    pwm_left.ChangeDutyCycle(30)
-    pwm_right.ChangeDutyCycle(30)
+    
     time.sleep(3)
     
     # Stop
     print("Test complete - stopping motors")
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
+
 
 except KeyboardInterrupt:
     print("\nStopped by user")
 
 finally:
     # Cleanup
-    pwm_left.stop()
-    pwm_right.stop()
+
     GPIO.cleanup()
     print("GPIO cleanup complete")
