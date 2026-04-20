@@ -26,8 +26,8 @@
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
-                hdr40-pin35 {
-                    nvidia,pins = "soc_gpio44_pi2";
+                hdr40-pin29 {
+                    nvidia,pins = "soc_gpio32_pq5";
                     nvidia,tristate = <0x0>;
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
@@ -38,8 +38,8 @@
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
-                hdr40-pin37 {
-                    nvidia,pins = "spi3_mosi_py2";
+                hdr40-pin31 {
+                    nvidia,pins = "soc_gpio33_pq6";
                     nvidia,tristate = <0x0>;
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
