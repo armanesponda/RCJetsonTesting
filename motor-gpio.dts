@@ -40,7 +40,6 @@
                 };
                 hdr40-pin37 {
                     nvidia,pins = "spi3_mosi_py2";
-                    nvidia,function = "gp";
                     nvidia,tristate = <0x0>;
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
