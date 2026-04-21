@@ -19,8 +19,8 @@
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
-                hdr40-pin15 {
-                    nvidia,pins = "soc_gpio39_pn1";
+                hdr40-pin33 {
+                    nvidia,pins = "soc_gpio21_ph0";
                     nvidia,tristate = <0x0>;
                     nvidia,function = "gp";
                     nvidia,enable-input = <0x1>;
