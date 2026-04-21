@@ -3,10 +3,10 @@ os.environ['JETSON_MODEL'] = 'JETSON_ORIN_NANO'
 import Jetson.GPIO as GPIO
 import time
 
-ENA = 13  # Left motor PWM (Pin 15)
-IN1 = 5   # Pin 29 - NEW
-IN2 = 6   # Pin 31 - NEW
-ENB = 12  # Right motor PWM (Pin 32)
+ENA = 17  # Left motor PWM (Pin 11)
+IN1 = 5   # Pin 29
+IN2 = 6   # Pin 31
+ENB = 27  # Right motor PWM (Pin 13)
 IN3 = 16  # Right direction 1 (Pin 36)
 IN4 = 20  # Right direction 2 (Pin 38)
 
