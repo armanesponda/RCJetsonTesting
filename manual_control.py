@@ -3,10 +3,10 @@ import Jetson.GPIO as GPIO
 import cv2
 
 # Pin definitions
-ENA = 13
-IN1 = 19
-IN2 = 26
-ENB = 12
+ENA = 17
+IN1 = 5
+IN2 = 6
+ENB = 27
 IN3 = 16
 IN4 = 20
 
