@@ -2,6 +2,45 @@ import os
 os.environ['JETSON_MODEL'] = 'JETSON_ORIN_NANO'
 import Jetson.GPIO as GPIO
 import time
+import threading
+
+class SoftPWM:
+    def __init__(self, pin, freq=1000):
+        self.pin = pin
+        self.period = 1.0 / freq
+        self.duty = 0
+        self._running = False
+        self._thread = None
+
+    def start(self, duty):
+        self.duty = duty
+        self._running = True
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread.start()
+
+    def _run(self):
+        while self._running:
+            dc = self.duty
+            if dc <= 0:
+                GPIO.output(self.pin, GPIO.LOW)
+                time.sleep(self.period)
+            elif dc >= 100:
+                GPIO.output(self.pin, GPIO.HIGH)
+                time.sleep(self.period)
+            else:
+                GPIO.output(self.pin, GPIO.HIGH)
+                time.sleep(self.period * dc / 100.0)
+                GPIO.output(self.pin, GPIO.LOW)
+                time.sleep(self.period * (100.0 - dc) / 100.0)
+
+    def ChangeDutyCycle(self, duty):
+        self.duty = duty
+
+    def stop(self):
+        self._running = False
+        if self._thread:
+            self._thread.join(timeout=0.1)
+        GPIO.output(self.pin, GPIO.LOW)
 
 ENA = 17  # Left motor PWM (Pin 11)
 IN1 = 5   # Pin 29
@@ -18,8 +57,8 @@ GPIO.setup(ENB, GPIO.OUT)
 GPIO.setup(IN3, GPIO.OUT)
 GPIO.setup(IN4, GPIO.OUT)
 
-pwm_left = GPIO.PWM(ENA, 1000)
-pwm_right = GPIO.PWM(ENB, 1000)
+pwm_left = SoftPWM(ENA, 1000)
+pwm_right = SoftPWM(ENB, 1000)
 pwm_left.start(0)
 pwm_right.start(0)
 
@@ -84,3 +123,4 @@ finally:
     pwm_right.stop()
     GPIO.cleanup()
     print("GPIO cleanup complete")
+
