@@ -12,17 +12,15 @@
             pinctrl-0 = <&jetson_io_pinmux>;
             
             jetson_io_pinmux: exp-header-pinmux {
-                hdr40-pin32 {
-                    nvidia,pins = "soc_gpio19_pg6";
+                hdr40-pin11 {
+                    nvidia,pins = "uart1_rts_pr4";
                     nvidia,tristate = <0x0>;
-                    nvidia,function = "gp";
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
-                hdr40-pin33 {
-                    nvidia,pins = "soc_gpio21_ph0";
+                hdr40-pin13 {
+                    nvidia,pins = "spi3_sck_py0";
                     nvidia,tristate = <0x0>;
-                    nvidia,function = "gp";
                     nvidia,enable-input = <0x1>;
                     nvidia,pull = <0x0>;
                 };
@@ -54,3 +52,4 @@
         };
     };
 };
+
