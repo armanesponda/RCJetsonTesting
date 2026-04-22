@@ -167,13 +167,13 @@ try:
         key = cv2.waitKey(30) & 0xFF
 
         if key == ord('w'):
-            forward(40)
+            forward(90)
         elif key == ord('s'):
-            backward(40)
+            backward(90)
         elif key == ord('a'):
-            turn_left(40)
+            turn_left(90)
         elif key == ord('d'):
-            turn_right(40)
+            turn_right(90)
         elif key == ord(' '):
             stop_motors()
         elif key == ord('c'):
