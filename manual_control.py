@@ -15,6 +15,10 @@ ENB = 27  # Right motor PWM (Pin 13)
 IN3 = 16  # Pin 36
 IN4 = 20  # Pin 38
 
+# Speed trim — reduce whichever side is faster (0.0–1.0)
+LEFT_TRIM  = 1.0
+RIGHT_TRIM = 0.85
+
 SAVE_DIR = os.path.expanduser("~/lane_data/raw")
 os.makedirs(SAVE_DIR, exist_ok=True)
 
@@ -85,24 +89,24 @@ def forward(speed=40):
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(speed)
-    pwm_right.ChangeDutyCycle(speed)
+    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
+    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
 
 def backward(speed=40):
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    pwm_left.ChangeDutyCycle(speed)
-    pwm_right.ChangeDutyCycle(speed)
+    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
+    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
 
 def turn_left(speed=40):
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(speed)
-    pwm_right.ChangeDutyCycle(speed)
+    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
+    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
 
 def turn_right(speed=40):
     GPIO.output(IN1, GPIO.HIGH)
