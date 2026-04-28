@@ -16,8 +16,6 @@ ENB = 27  # Right motor PWM (Pin 13)
 IN3 = 16  # Pin 36
 IN4 = 20  # Pin 38
 
-LEFT_TRIM  = 1.0
-RIGHT_TRIM = 0.85
 
 # ── SoftPWM ────────────────────────────────────────────────────────
 class SoftPWM:
@@ -78,26 +76,26 @@ def stop_motors():
 def forward(speed=60):
     GPIO.output(IN1, GPIO.HIGH); GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH); GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
-    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
+    pwm_left.ChangeDutyCycle(speed)
+    pwm_right.ChangeDutyCycle(speed)
 
 def backward(speed=60):
     GPIO.output(IN1, GPIO.LOW);  GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW);  GPIO.output(IN4, GPIO.HIGH)
-    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
-    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
+    pwm_left.ChangeDutyCycle(speed)
+    pwm_right.ChangeDutyCycle(speed)
 
 def turn_left(speed=60):
     GPIO.output(IN1, GPIO.LOW);  GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH); GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
-    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
+    pwm_left.ChangeDutyCycle(speed)
+    pwm_right.ChangeDutyCycle(speed)
 
 def turn_right(speed=60):
     GPIO.output(IN1, GPIO.HIGH); GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW);  GPIO.output(IN4, GPIO.HIGH)
-    pwm_left.ChangeDutyCycle(speed * LEFT_TRIM)
-    pwm_right.ChangeDutyCycle(speed * RIGHT_TRIM)
+    pwm_left.ChangeDutyCycle(speed)
+    pwm_right.ChangeDutyCycle(speed)
 
 COMMANDS = {
     "forward":    forward,
