@@ -62,63 +62,59 @@ pwm_right = SoftPWM(ENB, 1000)
 pwm_left.start(0)
 pwm_right.start(0)
 
-print("GPIO Test - Press Ctrl+C to stop")
+def all_stop():
+    GPIO.output(IN1, GPIO.LOW)
+    GPIO.output(IN2, GPIO.LOW)
+    GPIO.output(IN3, GPIO.LOW)
+    GPIO.output(IN4, GPIO.LOW)
+    pwm_left.ChangeDutyCycle(0)
+    pwm_right.ChangeDutyCycle(0)
+
+def run_test(label, setup_fn, duration=2.0):
+    input(f"\n[Press Enter] {label}")
+    all_stop()
+    setup_fn()
+    print(f"  Running {duration}s — note which wheel(s) move and direction")
+    time.sleep(duration)
+    all_stop()
+    print("  Stopped.")
+
+print("GPIO Test — press Enter to step through each test, Ctrl+C to quit at any time")
+print("For each test, note: which wheel(s) spin, and which direction (forward/backward)")
+
 try:
-    print("Test 1: All motors stopped")
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
-    time.sleep(2)
+    run_test("Channel A (ENA/IN1/IN2) — IN1 HIGH  [code calls this 'left forward']",
+             lambda: (GPIO.output(IN1, GPIO.HIGH), GPIO.output(IN2, GPIO.LOW),
+                      pwm_left.ChangeDutyCycle(50)))
 
-    print("Test 2: Left motors forward (50%)")
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(50)
-    time.sleep(3)
+    run_test("Channel A (ENA/IN1/IN2) — IN2 HIGH  [code calls this 'left backward']",
+             lambda: (GPIO.output(IN1, GPIO.LOW), GPIO.output(IN2, GPIO.HIGH),
+                      pwm_left.ChangeDutyCycle(50)))
 
-    pwm_left.ChangeDutyCycle(0)
-    time.sleep(1)
+    run_test("Channel B (ENB/IN3/IN4) — IN3 HIGH  [code calls this 'right forward']",
+             lambda: (GPIO.output(IN3, GPIO.HIGH), GPIO.output(IN4, GPIO.LOW),
+                      pwm_right.ChangeDutyCycle(50)))
 
-    print("Test 3: Right motors forward (50%)")
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_right.ChangeDutyCycle(50)
-    time.sleep(3)
+    run_test("Channel B (ENB/IN3/IN4) — IN4 HIGH  [code calls this 'right backward']",
+             lambda: (GPIO.output(IN3, GPIO.LOW), GPIO.output(IN4, GPIO.HIGH),
+                      pwm_right.ChangeDutyCycle(50)))
 
-    pwm_right.ChangeDutyCycle(0)
-    time.sleep(1)
+    run_test("Both channels — code's 'forward' (IN1+IN3 HIGH)",
+             lambda: (GPIO.output(IN1, GPIO.HIGH), GPIO.output(IN2, GPIO.LOW),
+                      GPIO.output(IN3, GPIO.HIGH), GPIO.output(IN4, GPIO.LOW),
+                      pwm_left.ChangeDutyCycle(40), pwm_right.ChangeDutyCycle(40)))
 
-    print("Test 4: Both motors forward (30%)")
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_left.ChangeDutyCycle(30)
-    pwm_right.ChangeDutyCycle(30)
-    time.sleep(3)
+    run_test("Both channels — code's 'backward' (IN2+IN4 HIGH)",
+             lambda: (GPIO.output(IN1, GPIO.LOW), GPIO.output(IN2, GPIO.HIGH),
+                      GPIO.output(IN3, GPIO.LOW), GPIO.output(IN4, GPIO.HIGH),
+                      pwm_left.ChangeDutyCycle(40), pwm_right.ChangeDutyCycle(40)))
 
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
-    time.sleep(1)
+    print("\nAll tests done. Report back which wheel moved for each test!")
 
-    print("Test 5: Both motors reverse (30%)")
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.HIGH)
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.HIGH)
-    pwm_left.ChangeDutyCycle(30)
-    pwm_right.ChangeDutyCycle(30)
-    time.sleep(3)
-
-    print("Test complete - stopping motors")
-    pwm_left.ChangeDutyCycle(0)
-    pwm_right.ChangeDutyCycle(0)
 except KeyboardInterrupt:
     print("\nStopped by user")
 finally:
+    all_stop()
     pwm_left.stop()
     pwm_right.stop()
     GPIO.cleanup()
