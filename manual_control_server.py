@@ -118,6 +118,7 @@ if not cap.isOpened():
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,  640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 cap.set(cv2.CAP_PROP_FPS, 30)
+cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
 frame_lock   = threading.Lock()
 latest_frame = None
@@ -125,7 +126,9 @@ latest_frame = None
 def capture_loop():
     global latest_frame
     while True:
-        ret, frame = cap.read()
+        # Drain queued frames so we always store the freshest one
+        cap.grab()
+        ret, frame = cap.retrieve()
         if not ret:
             time.sleep(0.05)
             continue
